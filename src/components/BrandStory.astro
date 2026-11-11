@@ -1,0 +1,231 @@
+---
+---
+
+<section class="brand-story-section" id="nosotros" aria-labelledby="story-title">
+  <div class="wrap">
+    <div class="story-grid">
+      <!-- Tarjeta principal de presentación -->
+      <div class="story-card main-card">
+        <div class="kicker kicker-cyan">
+          <span aria-hidden="true">💡</span>
+          <span>¿Qué es Realidad Curiosa?</span>
+        </div>
+
+        <h2 id="story-title" class="story-title">
+          Un proyecto dedicado a <span class="gradient-text">despertar el asombro</span> por el mundo que nos rodea.
+        </h2>
+
+        <p class="story-lead">
+          Vivimos en un universo repleto de secretos: desde las profundidades del cosmos hasta los comportamientos más insólitos de la naturaleza y los misterios históricos que aún desafían la lógica.
+        </p>
+
+        <p class="story-body">
+          <strong>Realidad Curiosa</strong> nació con un propósito claro: transformar el aprendizaje en una experiencia entretenida, visual y sorprendente. Creemos que la curiosidad es el motor del conocimiento, y que nunca es tarde para hacerse nuevas preguntas.
+        </p>
+
+        <div class="story-quote">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <p class="quote-text">Aprender no tiene por qué ser aburrido; la realidad siempre supera a la ficción cuando se mira con curiosidad.</p>
+        </div>
+      </div>
+
+      <!-- Tarjetas de pilares y propuesta de valor -->
+      <div class="story-pillars">
+        <article class="pillar-card">
+          <div class="pillar-icon" aria-hidden="true">🔬</div>
+          <div class="pillar-content">
+            <h3 class="pillar-title">Curiosidad con rigor</h3>
+            <p class="pillar-desc">
+              Cada tema se aborda con seriedad y entusiasmo, respaldado por hechos reales y divulgación científica accesible.
+            </p>
+          </div>
+        </article>
+
+        <article class="pillar-card">
+          <div class="pillar-icon" aria-hidden="true">⚡</div>
+          <div class="pillar-content">
+            <h3 class="pillar-title">Formato vertical ágil</h3>
+            <p class="pillar-desc">
+              Contenido pensado para el ritmo de las plataformas actuales: explicaciones dinámicas que van directo a lo fascinante.
+            </p>
+          </div>
+        </article>
+
+        <article class="pillar-card">
+          <div class="pillar-icon" aria-hidden="true">🌌</div>
+          <div class="pillar-content">
+            <h3 class="pillar-title">Pasión por lo extraordinario</h3>
+            <p class="pillar-desc">
+              Exploramos desde la física del espacio profundo hasta las criaturas más extrañas de nuestro propio planeta.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-story-section {
+    padding: clamp(60px, 8vw, 100px) 0;
+    position: relative;
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 32px;
+    align-items: stretch;
+  }
+
+  .story-card {
+    border: 1px solid var(--color-linea-borde);
+    border-radius: var(--radio-xl);
+    padding: clamp(28px, 4vw, 44px);
+    background: linear-gradient(145deg, rgba(22, 10, 51, 0.75) 0%, rgba(9, 13, 28, 0.9) 100%);
+    box-shadow: var(--sombra-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .main-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .main-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(104, 225, 245, 0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .story-title {
+    font-size: clamp(26px, 3.5vw, 38px);
+    line-height: 1.18;
+    letter-spacing: -0.04em;
+    font-weight: 850;
+    margin: 8px 0 18px;
+    color: var(--color-blanco);
+  }
+
+  .story-lead {
+    font-size: 17px;
+    color: var(--color-blanco-tenue);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .story-body {
+    font-size: 15px;
+    color: var(--color-texto-secundario);
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+
+  .story-body strong {
+    color: var(--color-blanco);
+  }
+
+  .story-quote {
+    padding: 16px 20px;
+    border-radius: var(--radio-md);
+    background: rgba(124, 58, 237, 0.14);
+    border-left: 3px solid var(--color-amarillo-luminoso);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .quote-mark {
+    font-size: 32px;
+    line-height: 1;
+    font-family: Georgia, serif;
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .quote-text {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--color-blanco-suave);
+    line-height: 1.5;
+  }
+
+  /* Columna de Pilares */
+  .story-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  .pillar-card {
+    padding: 24px;
+    border-radius: var(--radio-lg);
+    background: var(--color-panel-transparente);
+    border: 1px solid var(--color-linea-borde);
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+  }
+
+  .pillar-card:hover {
+    transform: translateX(4px);
+    border-color: var(--color-linea-activa);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .pillar-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radio-md);
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(157, 140, 255, 0.3);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .pillar-title {
+    font-size: 17px;
+    font-weight: 750;
+    color: var(--color-blanco);
+    margin-bottom: 6px;
+  }
+
+  .pillar-desc {
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 900px) {
+    .story-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .story-card {
+      padding: 24px 18px;
+    }
+
+    .pillar-card {
+      padding: 18px 16px;
+      gap: 14px;
+    }
+
+    .pillar-icon {
+      width: 42px;
+      height: 42px;
+      font-size: 20px;
+    }
+  }
+</style>

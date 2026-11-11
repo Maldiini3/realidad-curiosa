@@ -1,0 +1,491 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCategoryBySlug } from '../../data/categories';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articulos', ({ data }) => !data.draft);
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article }
+  }));
+}
+
+interface Props {
+  article: any;
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const category = getCategoryBySlug(article.data.category);
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(article.data.image, Astro.site);
+
+// Breadcrumb Schema.org
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "https://realidadcuriosa.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Artículos",
+      "item": "https://realidadcuriosa.com/articulos/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": category ? category.name : "Categoría",
+      "item": category ? `https://realidadcuriosa.com/categoria/${category.slug}` : "https://realidadcuriosa.com/articulos/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": article.data.title,
+      "item": canonicalURL.toString()
+    }
+  ]
+};
+
+// Article Schema.org
+const articleSchema = {
+  "@type": "Article",
+  "@id": `${canonicalURL.toString()}#article`,
+  "isPartOf": {
+    "@type": "WebPage",
+    "@id": canonicalURL.toString()
+  },
+  "headline": article.data.title,
+  "description": article.data.description,
+  "image": imageURL.toString(),
+  "datePublished": article.data.pubDate.toISOString(),
+  "dateModified": article.data.updatedDate ? article.data.updatedDate.toISOString() : article.data.pubDate.toISOString(),
+  "author": {
+    "@type": "Organization",
+    "name": "Realidad Curiosa",
+    "url": "https://realidadcuriosa.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Realidad Curiosa",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://realidadcuriosa.com/assets/logo-realidad-curiosa.jpg"
+    }
+  },
+  "mainEntityOfPage": canonicalURL.toString(),
+  "inLanguage": "es"
+};
+---
+
+<BaseLayout
+  title={article.data.seoTitle || `${article.data.title} | Realidad Curiosa`}
+  description={article.data.seoDescription || article.data.description}
+  image={article.data.image}
+  type="article"
+  articleData={{
+    publishedTime: article.data.pubDate.toISOString(),
+    modifiedTime: article.data.updatedDate?.toISOString(),
+    section: category?.name,
+    tags: article.data.tags
+  }}
+  schema={[breadcrumbSchema, articleSchema]}
+>
+  <article class="wrap article-container">
+    <Breadcrumbs
+      items={[
+        { label: "Artículos", href: "/articulos/" },
+        { label: category ? category.name : "Categoría", href: category ? `/categoria/${category.slug}` : undefined },
+        { label: article.data.title }
+      ]}
+    />
+
+    <!-- Cabecera del artículo -->
+    <header class="article-header">
+      {category && (
+        <a href={`/categoria/${category.slug}`} class="article-category-badge">
+          <span aria-hidden="true">{category.icon}</span>
+          <span>{category.name}</span>
+        </a>
+      )}
+
+      <h1 class="article-headline">{article.data.title}</h1>
+
+      <p class="article-lead">{article.data.description}</p>
+
+      <div class="article-meta-bar">
+        <div class="author-info">
+          <img
+            src="/assets/logo-realidad-curiosa.jpg"
+            alt="Realidad Curiosa"
+            class="author-avatar"
+            width="36"
+            height="36"
+          />
+          <div class="author-texts">
+            <span class="author-name">Equipo Realidad Curiosa</span>
+            <span class="author-role">Divulgación digital</span>
+          </div>
+        </div>
+
+        <div class="date-info">
+          <time datetime={article.data.pubDate.toISOString()}>
+            Publicado: {article.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          {article.data.readingTime && (
+            <span class="reading-time">· Lectura: {article.data.readingTime}</span>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <!-- Imagen de portada destacada -->
+    <div class="article-cover-wrapper">
+      <img
+        src={article.data.image}
+        alt={article.data.imageAlt}
+        class="article-cover-img"
+        width="1140"
+        height="580"
+        loading="eager"
+        decoding="async"
+      />
+    </div>
+
+    <!-- Cuerpo de contenido del artículo -->
+    <div class="article-prose">
+      <Content />
+    </div>
+
+    <!-- Pie del artículo con etiquetas y comunidad -->
+    <footer class="article-footer">
+      {article.data.tags.length > 0 && (
+        <div class="tags-block">
+          <span class="tags-label">Temas relacionados:</span>
+          <div class="tags-list">
+            {article.data.tags.map((tag: string) => (
+              <span class="tag-pill">#{tag}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="community-callout">
+        <div class="callout-content">
+          <h3>¿Te apasiona la curiosidad?</h3>
+          <p>
+            Publicamos videos cortos diarios y datos sorprendentes en nuestras redes oficiales. Únete a nuestra comunidad.
+          </p>
+        </div>
+        <div class="callout-actions">
+          <a href="https://www.youtube.com/@realidadcuriosaa" target="_blank" rel="noopener noreferrer" class="btn primary">
+            <span>YouTube Shorts</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://www.tiktok.com/@realidad.curiosa" target="_blank" rel="noopener noreferrer" class="btn secondary">
+            <span>TikTok</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="article-nav-links">
+        {category && (
+          <a href={`/categoria/${category.slug}`} class="nav-back">
+            <span aria-hidden="true">←</span>
+            <span>Más sobre {category.name}</span>
+          </a>
+        )}
+        <a href="/articulos/" class="nav-all">
+          <span>Ver todos los artículos</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-container {
+    max-width: 860px;
+    padding-bottom: 90px;
+  }
+
+  .article-header {
+    margin-bottom: 36px;
+  }
+
+  .article-category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: var(--radio-full);
+    background: rgba(124, 58, 237, 0.16);
+    border: 1px solid rgba(157, 140, 255, 0.35);
+    color: var(--color-azul-cian);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida);
+  }
+
+  .article-category-badge:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-amarillo-luminoso);
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .article-headline {
+    font-size: clamp(34px, 5.5vw, 54px);
+    line-height: 1.15;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--color-blanco);
+    margin-bottom: 18px;
+  }
+
+  .article-lead {
+    font-size: clamp(17px, 2.2vw, 21px);
+    line-height: 1.6;
+    color: var(--color-blanco-tenue);
+    margin-bottom: 28px;
+  }
+
+  .article-meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-top: 1px solid var(--color-linea-borde);
+    border-bottom: 1px solid var(--color-linea-borde);
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    border-radius: var(--radio-xs);
+    box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
+  }
+
+  .author-texts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .author-name {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--color-blanco);
+  }
+
+  .author-role {
+    font-size: 11px;
+    color: var(--color-azul-cian);
+  }
+
+  .date-info {
+    font-size: 13px;
+    color: var(--color-texto-apagado);
+  }
+
+  .article-cover-wrapper {
+    margin: 36px 0 48px;
+    border-radius: var(--radio-xl);
+    overflow: hidden;
+    border: 1px solid var(--color-linea-borde);
+    box-shadow: var(--sombra-card);
+    background: #090e1e;
+  }
+
+  .article-cover-img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  /* Estilos tipográficos para el contenido prose */
+  .article-prose {
+    font-size: clamp(16px, 1.9vw, 18px);
+    line-height: 1.75;
+    color: var(--color-blanco-tenue);
+  }
+
+  .article-prose :global(h2) {
+    font-size: clamp(24px, 3.5vw, 32px);
+    font-weight: 850;
+    letter-spacing: -0.03em;
+    color: var(--color-blanco);
+    margin: 48px 0 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-linea-borde);
+  }
+
+  .article-prose :global(h3) {
+    font-size: clamp(20px, 2.5vw, 24px);
+    font-weight: 800;
+    color: var(--color-amarillo-luminoso);
+    margin: 36px 0 14px;
+  }
+
+  .article-prose :global(p) {
+    margin-bottom: 24px;
+  }
+
+  .article-prose :global(ul),
+  .article-prose :global(ol) {
+    margin-bottom: 24px;
+    padding-left: 24px;
+  }
+
+  .article-prose :global(li) {
+    margin-bottom: 8px;
+  }
+
+  .article-prose :global(blockquote) {
+    border-left: 4px solid var(--color-amarillo-luminoso);
+    background: rgba(124, 58, 237, 0.12);
+    padding: 18px 24px;
+    border-radius: 0 var(--radio-md) var(--radio-md) 0;
+    font-style: italic;
+    color: var(--color-blanco-suave);
+    margin: 32px 0;
+  }
+
+  .article-prose :global(strong) {
+    color: var(--color-blanco);
+    font-weight: 750;
+  }
+
+  .article-prose :global(a) {
+    color: var(--color-azul-cian);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .article-prose :global(a:hover) {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .article-footer {
+    margin-top: 60px;
+    padding-top: 36px;
+    border-top: 1px solid var(--color-linea-borde);
+  }
+
+  .tags-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .tags-label {
+    font-size: 13px;
+    font-weight: 750;
+    color: var(--color-texto-apagado);
+  }
+
+  .tags-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag-pill {
+    padding: 4px 12px;
+    border-radius: var(--radio-full);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-linea-borde);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-texto-secundario);
+  }
+
+  .community-callout {
+    padding: 32px;
+    border-radius: var(--radio-lg);
+    background: linear-gradient(135deg, rgba(35, 11, 77, 0.6) 0%, rgba(13, 19, 38, 0.85) 100%);
+    border: 1px solid rgba(157, 140, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .callout-content h3 {
+    font-size: 20px;
+    font-weight: 850;
+    color: var(--color-blanco);
+    margin-bottom: 6px;
+  }
+
+  .callout-content p {
+    font-size: 14px;
+    color: var(--color-texto-secundario);
+    line-height: 1.5;
+  }
+
+  .callout-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .article-nav-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    font-size: 14px;
+    font-weight: 750;
+  }
+
+  .nav-back {
+    color: var(--color-azul-cian);
+  }
+
+  .nav-all {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  @media (max-width: 768px) {
+    .community-callout {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .callout-actions {
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .callout-actions .btn {
+      width: 100%;
+    }
+
+    .article-nav-links {
+      flex-direction: column;
+      gap: 14px;
+      align-items: flex-start;
+    }
+  }
+</style>

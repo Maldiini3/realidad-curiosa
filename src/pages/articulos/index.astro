@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { categories } from '../../data/categories';
+import { getCollection } from 'astro:content';
+
+const allArticles = await getCollection('articulos', ({ data }) => !data.draft);
+const sortedArticles = allArticles.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "https://realidadcuriosa.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Artículos",
+      "item": "https://realidadcuriosa.com/articulos/"
+    }
+  ]
+};
+
+const collectionSchema = {
+  "@type": "CollectionPage",
+  "@id": "https://realidadcuriosa.com/articulos/#webpage",
+  "url": "https://realidadcuriosa.com/articulos/",
+  "name": "Artículos y Curiosidades | Divulgación Digital — Realidad Curiosa",
+  "description": "Explora artículos rigurosos y explicaciones accesibles sobre el cosmos, la naturaleza, la historia y los fenómenos asombrosos en Realidad Curiosa.",
+  "inLanguage": "es"
+};
+---
+
+<BaseLayout
+  title="Artículos y Curiosidades | Divulgación Digital — Realidad Curiosa"
+  description="Explora artículos rigurosos y explicaciones accesibles sobre el cosmos, la naturaleza, la historia y los fenómenos asombrosos en Realidad Curiosa."
+  schema={[breadcrumbSchema, collectionSchema]}
+>
+  <div class="wrap articles-page">
+    <Breadcrumbs
+      items={[
+        { label: "Artículos" }
+      ]}
+    />
+
+    <header class="page-header">
+      <div class="kicker kicker-yellow">
+        <span aria-hidden="true">📚</span>
+        <span>Archivo editorial</span>
+      </div>
+      <h1 class="page-title">
+        Curiosidades y <span class="gradient-text">artículos de divulgación</span>
+      </h1>
+      <p class="page-lead">
+        Profundizamos en los temas que despiertan el asombro: explicaciones claras, hechos verificados y preguntas fascinantes sobre la realidad.
+      </p>
+
+      <!-- Píldoras de filtrado por categoría -->
+      <nav class="categories-nav" aria-label="Filtrar por categoría">
+        <span class="nav-label">Explorar por categoría:</span>
+        <div class="pills-container">
+          {categories.map(cat => (
+            <a href={`/categoria/${cat.slug}`} class="cat-pill">
+              <span class="pill-icon" aria-hidden="true">{cat.icon}</span>
+              <span>{cat.name}</span>
+            </a>
+          ))}
+        </div>
+      </nav>
+    </header>
+
+    <section class="content-section" aria-label="Listado de artículos">
+      {sortedArticles.length > 0 ? (
+        <div class="articles-grid">
+          {sortedArticles.map(article => (
+            <article class="article-card">
+              <a href={`/articulos/${article.id}`} class="card-image-link">
+                <img
+                  src={article.data.image}
+                  alt={article.data.imageAlt}
+                  class="article-card-img"
+                  loading="lazy"
+                  width="400"
+                  height="225"
+                />
+              </a>
+              <div class="card-body">
+                <div class="card-meta">
+                  <a href={`/categoria/${article.data.category}`} class="card-cat-badge">
+                    {categories.find(c => c.slug === article.data.category)?.shortName || article.data.category}
+                  </a>
+                  <time datetime={article.data.pubDate.toISOString()}>
+                    {article.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </time>
+                  {article.data.readingTime && (
+                    <span class="reading-time">· {article.data.readingTime}</span>
+                  )}
+                </div>
+                <h2 class="card-title">
+                  <a href={`/articulos/${article.id}`}>{article.data.title}</a>
+                </h2>
+                <p class="card-desc">{article.data.description}</p>
+                <a href={`/articulos/${article.id}`} class="read-more">
+                  <span>Leer artículo</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state-card">
+          <div class="empty-icon" aria-hidden="true">📖</div>
+          <h2 class="empty-title">Espacio editorial en preparación</h2>
+          <p class="empty-desc">
+            Estamos redactando la primera serie de artículos científicos y curiosidades de <strong>Realidad Curiosa</strong>. Para mantener los más altos estándares de calidad y veracidad, <strong>no publicamos artículos simulados con información falsa</strong>.
+          </p>
+          <p class="empty-sub">
+            Encuentra mientras tanto nuestros videos cortos en YouTube, TikTok y Facebook Reels, o explora las categorías temáticas.
+          </p>
+          <div class="empty-actions">
+            <a href="https://www.youtube.com/@realidadcuriosaa" target="_blank" rel="noopener noreferrer" class="btn primary">
+              <span>Descubrir en YouTube Shorts</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a href="/#temas" class="btn secondary">
+              <span>Ver categorías</span>
+            </a>
+          </div>
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .articles-page {
+    padding-bottom: 80px;
+  }
+
+  .page-header {
+    padding: clamp(24px, 4vw, 40px) 0 clamp(32px, 5vw, 48px);
+    border-bottom: 1px solid var(--color-linea-borde);
+    margin-bottom: 48px;
+  }
+
+  .page-title {
+    font-size: clamp(32px, 5vw, 54px);
+    line-height: 1.1;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--color-blanco);
+    margin-bottom: 16px;
+    max-width: 840px;
+  }
+
+  .page-lead {
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--color-texto-secundario);
+    line-height: 1.65;
+    max-width: 760px;
+    margin-bottom: 32px;
+  }
+
+  .categories-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-label {
+    font-size: 12px;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-texto-apagado);
+  }
+
+  .pills-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radio-full);
+    background: var(--color-panel-transparente);
+    border: 1px solid var(--color-linea-borde);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-texto-principal);
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida), color var(--transicion-rapida);
+  }
+
+  .cat-pill:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-linea-activa);
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .pill-icon {
+    font-size: 16px;
+  }
+
+  /* Grid de artículos */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .article-card {
+    border-radius: var(--radio-lg);
+    background: var(--color-panel-transparente);
+    border: 1px solid var(--color-linea-borde);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-linea-activa);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  .card-image-link {
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #090e1d;
+  }
+
+  .article-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicion-suave);
+  }
+
+  .article-card:hover .article-card-img {
+    transform: scale(1.05);
+  }
+
+  .card-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--color-texto-apagado);
+    margin-bottom: 12px;
+  }
+
+  .card-cat-badge {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-azul-cian);
+    background: rgba(56, 189, 248, 0.12);
+    padding: 3px 8px;
+    border-radius: var(--radio-xs);
+  }
+
+  .card-title {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.35;
+    color: var(--color-blanco);
+    margin-bottom: 12px;
+  }
+
+  .card-title a {
+    color: inherit;
+  }
+
+  .card-title a:hover {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--color-texto-secundario);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 750;
+    color: var(--color-azul-cian);
+  }
+
+  .read-more:hover {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  /* Estado vacío elegante */
+  .empty-state-card {
+    padding: clamp(40px, 6vw, 72px) clamp(20px, 4vw, 48px);
+    border-radius: var(--radio-xl);
+    border: 1px dashed rgba(157, 140, 255, 0.35);
+    background: radial-gradient(circle at 50% 20%, rgba(35, 11, 77, 0.4) 0%, rgba(8, 11, 24, 0.8) 100%);
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .empty-title {
+    font-size: clamp(24px, 3.5vw, 30px);
+    font-weight: 850;
+    color: var(--color-blanco);
+    margin-bottom: 14px;
+  }
+
+  .empty-desc {
+    font-size: 15px;
+    color: var(--color-texto-secundario);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .empty-desc strong {
+    color: var(--color-blanco);
+  }
+
+  .empty-sub {
+    font-size: 14px;
+    color: var(--color-texto-apagado);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .empty-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1024px) {
+    .articles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .empty-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

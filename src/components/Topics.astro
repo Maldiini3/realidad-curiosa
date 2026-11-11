@@ -1,0 +1,220 @@
+---
+const topics = [
+  {
+    slug: "universo-y-ciencia",
+    symbol: "🌌",
+    tag: "Cosmología",
+    title: "Universo y ciencia",
+    description: "El espacio profundo, agujeros negros, el tiempo y los descubrimientos que expanden la frontera de lo conocido.",
+    highlight: "Exploración cósmica"
+  },
+  {
+    slug: "naturaleza-y-vida",
+    symbol: "🦋",
+    tag: "Biodiversidad",
+    title: "Naturaleza y vida",
+    description: "Criaturas insólitas, seres extremófilos y adaptaciones fascinantes con las que la evolución desafía la imaginación.",
+    highlight: "Misterios del planeta"
+  },
+  {
+    slug: "historia-y-enigmas",
+    symbol: "🏛️",
+    tag: "Civilizaciones",
+    title: "Historia y enigmas",
+    description: "Grandes preguntas del pasado, mitos históricos desmontados y hallazgos arqueológicos que cambiaron nuestra historia.",
+    highlight: "Relatos y preguntas"
+  },
+  {
+    slug: "fenomenos-asombrosos",
+    symbol: "⚡",
+    tag: "Fenómenos",
+    title: "Fenómenos asombrosos",
+    description: "Hechos científicos insólitos, leyes físicas asombrosas e ilusiones que demuestran lo extraordinaria que es la realidad.",
+    highlight: "Hechos sorprendentes"
+  },
+  {
+    slug: "curiosidades",
+    symbol: "💡",
+    tag: "Datos breves",
+    title: "Curiosidades",
+    description: "Preguntas del día a día, datos impactantes y respuestas entretenidas a esas dudas que todos nos hemos planteado alguna vez.",
+    highlight: "Saber cotidiano"
+  }
+];
+---
+
+<section class="wrap topics-section" id="temas" aria-labelledby="topics-title">
+  <div class="section-head center">
+    <div class="kicker kicker-yellow">
+      <span aria-hidden="true">✦</span>
+      <span>Un universo temático</span>
+    </div>
+    <h2 id="topics-title" class="section-title">
+      Siempre hay algo nuevo por <span class="gradient-text">descubrir</span>.
+    </h2>
+    <p class="section-sub">
+      Organizamos nuestro contenido en torno a las cinco áreas que despiertan el asombro y alimentan nuestras ganas de aprender.
+    </p>
+  </div>
+
+  <div class="topics-grid">
+    {topics.map(topic => (
+      <a
+        href={`/categoria/${topic.slug}`}
+        class="topic-card"
+        aria-label={`Explorar categoría: ${topic.title}`}
+      >
+        <div class="card-header">
+          <div class="symbol-box" aria-hidden="true">{topic.symbol}</div>
+          <span class="topic-tag">{topic.tag}</span>
+        </div>
+        <h3 class="topic-title">{topic.title}</h3>
+        <p class="topic-desc">{topic.description}</p>
+        <div class="card-footer">
+          <span class="footer-highlight">{topic.highlight}</span>
+          <span class="footer-arrow" aria-hidden="true">→</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .topics-section {
+    padding: clamp(60px, 8vw, 96px) 0;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+  }
+
+  .topic-card {
+    text-decoration: none;
+    color: inherit;
+    padding: 26px 20px;
+    border: 1px solid var(--color-linea-borde);
+    border-radius: var(--radio-lg);
+    background: linear-gradient(145deg, rgba(20, 28, 56, 0.7) 0%, rgba(10, 15, 30, 0.88) 100%);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+  }
+
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--color-azul-cian), transparent);
+    opacity: 0;
+    transition: opacity var(--transicion-rapida);
+  }
+
+  .topic-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(104, 225, 245, 0.45);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), 0 0 24px rgba(104, 225, 245, 0.15);
+  }
+
+  .topic-card:hover::before {
+    opacity: 1;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .symbol-box {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radio-md);
+    background: rgba(124, 58, 237, 0.16);
+    border: 1px solid rgba(157, 140, 255, 0.25);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+  }
+
+  .topic-tag {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-amarillo-luminoso);
+    padding: 4px 9px;
+    background: rgba(250, 204, 21, 0.1);
+    border-radius: var(--radio-full);
+    border: 1px solid rgba(250, 204, 21, 0.25);
+    white-space: nowrap;
+  }
+
+  .topic-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--color-blanco);
+    line-height: 1.25;
+  }
+
+  .topic-desc {
+    font-size: 13px;
+    color: var(--color-texto-secundario);
+    line-height: 1.6;
+    margin-bottom: 22px;
+    flex: 1;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-azul-cian);
+  }
+
+  .footer-highlight {
+    font-size: 11.5px;
+  }
+
+  .footer-arrow {
+    transition: transform var(--transicion-rapida), color var(--transicion-rapida);
+    font-size: 14px;
+  }
+
+  .topic-card:hover .footer-arrow {
+    transform: translateX(4px);
+    color: var(--color-amarillo-luminoso);
+  }
+
+  @media (max-width: 1200px) {
+    .topics-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .topics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .topics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

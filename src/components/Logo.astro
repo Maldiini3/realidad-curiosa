@@ -1,0 +1,61 @@
+---
+interface Props {
+  showText?: boolean;
+  size?: number;
+}
+
+const { showText = true, size = 42 } = Astro.props;
+---
+
+<div class="logo-container">
+  <img
+    src="/assets/logo-realidad-curiosa.jpg"
+    alt="Logotipo oficial de Realidad Curiosa — Bombilla amarilla luminosa con signo de interrogación blanco"
+    width={size}
+    height={size}
+    class="logo-img"
+    loading="eager"
+    decoding="async"
+  />
+
+  {showText && (
+    <span class="brand-text">
+      REALIDAD<span class="brand-highlight"> CURIOSA</span>
+    </span>
+  )}
+</div>
+
+<style>
+  .logo-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .logo-img {
+    border-radius: var(--radio-sm, 8px);
+    object-fit: contain;
+    aspect-ratio: 1 / 1;
+    box-shadow: 0 0 16px rgba(124, 58, 237, 0.35);
+    transition: transform var(--transicion-rapida), box-shadow var(--transicion-rapida);
+    flex-shrink: 0;
+  }
+
+  .logo-container:hover .logo-img {
+    transform: scale(1.06);
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.45);
+  }
+
+  .brand-text {
+    font-size: 15px;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    color: var(--color-texto-principal);
+    text-transform: uppercase;
+  }
+
+  .brand-highlight {
+    color: var(--color-azul-cian);
+  }
+</style>

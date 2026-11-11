@@ -1,0 +1,370 @@
+---
+---
+
+<section class="hero-section" id="inicio" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <!-- Contenido y mensaje principal -->
+    <div class="hero-content">
+      <div class="eyebrow-badge">
+        <span class="pulsing-dot" aria-hidden="true"></span>
+        <span>Ciencia · Naturaleza · Misterios · Historia</span>
+      </div>
+
+      <h1 id="hero-title" class="hero-title">
+        El mundo es más <span class="gradient-text">increíble</span> de lo que imaginas.
+      </h1>
+
+      <p class="hero-lead">
+        Un espacio digital para mentes que nunca dejan de preguntarse. Descubre fenómenos extraordinarios, enigmas del universo y curiosidades fascinantes explicadas en videos ágiles y entretenidos.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn primary" href="#videos">
+          <span>Explorar videos</span>
+          <span aria-hidden="true">↓</span>
+        </a>
+        <a class="btn secondary" href="#redes">
+          <span>Comunidades oficiales</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <!-- Métricas y aspectos de formato auténticos (sin estadísticas inventadas) -->
+      <div class="hero-features">
+        <div class="feature-item">
+          <span class="feature-icon" aria-hidden="true">📱</span>
+          <span class="feature-text">Formato vertical 9:16 (Shorts & Reels)</span>
+        </div>
+        <div class="feature-divider" aria-hidden="true"></div>
+        <div class="feature-item">
+          <span class="feature-icon" aria-hidden="true">🔍</span>
+          <span class="feature-text">Curiosidades verificadas y accesibles</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portal visual cinematográfico con el logo maestro original -->
+    <div class="hero-visual-wrapper">
+      <div class="portal-card">
+        <!-- Fondos y resplandores cósmicos -->
+        <div class="cosmic-aura"></div>
+        <div class="cosmic-ring r1"></div>
+        <div class="cosmic-ring r2"></div>
+
+        <!-- Imagen del logotipo oficial maestro -->
+        <div class="logo-showcase-container">
+          <img
+            src="/assets/logo-realidad-curiosa.jpg"
+            alt="Logotipo oficial de Realidad Curiosa en formato insignia — Bombilla amarilla con signo de interrogación blanco"
+            width="260"
+            height="260"
+            class="logo-master-img"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+
+        <!-- Destellos estelares interactivos -->
+        <div class="star-sparkle s1" aria-hidden="true">✦</div>
+        <div class="star-sparkle s2" aria-hidden="true">✦</div>
+        <div class="star-sparkle s3" aria-hidden="true">★</div>
+        <div class="star-sparkle s4" aria-hidden="true">✦</div>
+
+        <!-- Etiqueta flotante inferior -->
+        <div class="floating-badge">
+          <span class="badge-dot"></span>
+          <span>Despierta tu curiosidad</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    padding: clamp(48px, 8vw, 96px) 0 clamp(48px, 6vw, 80px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: clamp(32px, 5vw, 64px);
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .eyebrow-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    border-radius: var(--radio-full);
+    background: rgba(124, 58, 237, 0.16);
+    border: 1px solid rgba(157, 140, 255, 0.35);
+    color: var(--color-azul-cian);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    box-shadow: 0 0 16px rgba(124, 58, 237, 0.2);
+  }
+
+  .pulsing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-amarillo-luminoso);
+    box-shadow: 0 0 12px var(--color-amarillo-luminoso);
+    animation: pulse 2s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.4);
+      opacity: 0.6;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(38px, 5.5vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+    font-weight: 900;
+    color: var(--color-blanco);
+    margin-bottom: 22px;
+  }
+
+  .hero-lead {
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--color-texto-secundario);
+    line-height: 1.65;
+    max-width: 590px;
+    margin-bottom: 34px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 38px;
+  }
+
+  .hero-features {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-linea-borde);
+    color: var(--color-texto-secundario);
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-icon {
+    font-size: 16px;
+  }
+
+  .feature-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--color-linea-borde);
+  }
+
+  /* Portal Visual Cinematográfico */
+  .hero-visual-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .portal-card {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radio-xl);
+    border: 1px solid rgba(157, 140, 255, 0.28);
+    background: radial-gradient(circle at 50% 50%, rgba(35, 11, 77, 0.65) 0%, rgba(8, 11, 24, 0.92) 80%);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(124, 58, 237, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .cosmic-aura {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(250, 204, 21, 0.22) 0%, rgba(124, 58, 237, 0.3) 50%, transparent 75%);
+    filter: blur(24px);
+    pointer-events: none;
+  }
+
+  .cosmic-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(104, 225, 245, 0.3);
+    pointer-events: none;
+  }
+
+  .r1 {
+    width: 320px;
+    height: 320px;
+    transform: rotate(35deg);
+  }
+
+  .r2 {
+    width: 360px;
+    height: 360px;
+    border-style: dotted;
+    border-color: rgba(250, 204, 21, 0.25);
+    transform: rotate(-25deg);
+  }
+
+  .logo-showcase-container {
+    position: relative;
+    z-index: 2;
+    padding: 10px;
+    border-radius: var(--radio-lg);
+    background: rgba(13, 19, 38, 0.75);
+    border: 2px solid rgba(250, 204, 21, 0.5);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 35px rgba(250, 204, 21, 0.35);
+    transition: transform var(--transicion-suave), box-shadow var(--transicion-suave);
+  }
+
+  .portal-card:hover .logo-showcase-container {
+    transform: scale(1.04);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 50px rgba(250, 204, 21, 0.55);
+  }
+
+  .logo-master-img {
+    display: block;
+    width: clamp(180px, 24vw, 240px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radio-md);
+    object-fit: cover;
+  }
+
+  .star-sparkle {
+    position: absolute;
+    color: var(--color-amarillo-luminoso);
+    font-size: 16px;
+    text-shadow: 0 0 8px var(--color-amarillo-luminoso);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .s1 { top: 18%; left: 18%; font-size: 20px; color: var(--color-azul-cian); text-shadow: 0 0 10px var(--color-azul-cian); }
+  .s2 { top: 22%; right: 20%; font-size: 18px; }
+  .s3 { bottom: 20%; left: 22%; font-size: 14px; color: #ffffff; }
+  .s4 { bottom: 24%; right: 18%; font-size: 22px; }
+
+  .floating-badge {
+    position: absolute;
+    bottom: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: var(--radio-full);
+    background: rgba(6, 9, 19, 0.88);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-linea-borde);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-blanco);
+    letter-spacing: 0.05em;
+    z-index: 3;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-azul-cian);
+    box-shadow: 0 0 8px var(--color-azul-cian);
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero-content {
+      align-items: center;
+    }
+
+    .hero-lead {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-actions {
+      justify-content: center;
+    }
+
+    .hero-features {
+      justify-content: center;
+    }
+
+    .hero-visual-wrapper {
+      margin-top: 10px;
+    }
+
+    .portal-card {
+      max-width: 360px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .portal-card {
+      max-width: 290px;
+    }
+
+    .logo-master-img {
+      width: 160px;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .hero-actions .btn {
+      width: 100%;
+    }
+
+    .feature-divider {
+      display: none;
+    }
+
+    .hero-features {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+</style>

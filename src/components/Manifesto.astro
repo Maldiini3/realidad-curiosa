@@ -1,0 +1,121 @@
+---
+---
+
+<section class="wrap manifesto-section" id="manifiesto" aria-labelledby="manifesto-title">
+  <div class="manifesto-card">
+    <div class="manifesto-decor-glow" aria-hidden="true"></div>
+    <div class="manifesto-content">
+      <div class="kicker kicker-yellow">
+        <span aria-hidden="true">★</span>
+        <span>Nuestro Manifiesto</span>
+      </div>
+
+      <h2 id="manifesto-title" class="manifesto-title">
+        La curiosidad no tiene <span class="gradient-text">límites</span>.
+      </h2>
+
+      <p class="manifesto-lead">
+        Creemos que aprender no es memorizar respuestas, sino nunca cansarse de hacer preguntas.
+      </p>
+
+      <p class="manifesto-text">
+        El asombro no está reservado exclusivamente para los libros de astronomía o los laboratorios remotos: está vivo en cada detalle de la realidad cotidiana, en las leyes que gobiernan las estrellas y en las pequeñas casualidades biológicas que nos permiten estar aquí.
+      </p>
+
+      <p class="manifesto-footer-note">
+        Mira el mundo con otros ojos. Haz preguntas. Sé parte de la comunidad curiosa.
+      </p>
+
+      <div class="manifesto-cta">
+        <a href="#redes" class="btn primary">
+          <span>Únete a nuestras redes oficiales</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .manifesto-section {
+    padding: clamp(60px, 8vw, 100px) 0;
+  }
+
+  .manifesto-card {
+    position: relative;
+    border-radius: var(--radio-xl);
+    border: 1px solid rgba(157, 140, 255, 0.32);
+    background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.28) 0%, rgba(22, 10, 51, 0.6) 40%, rgba(7, 10, 24, 0.95) 100%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(124, 58, 237, 0.2);
+    overflow: hidden;
+    padding: clamp(40px, 6vw, 72px) clamp(24px, 5vw, 64px);
+    text-align: center;
+  }
+
+  .manifesto-decor-glow {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(450px, 90vw);
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(250, 204, 21, 0.16) 0%, rgba(104, 225, 245, 0.12) 50%, transparent 75%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .manifesto-content {
+    position: relative;
+    z-index: 2;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .manifesto-title {
+    font-size: clamp(32px, 5vw, 54px);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    font-weight: 900;
+    margin: 10px 0 20px;
+    color: var(--color-blanco);
+  }
+
+  .manifesto-lead {
+    font-size: clamp(18px, 2.4vw, 22px);
+    font-weight: 600;
+    color: var(--color-blanco-suave);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .manifesto-text {
+    font-size: clamp(15px, 1.8vw, 17px);
+    color: var(--color-texto-secundario);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    max-width: 740px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .manifesto-footer-note {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-amarillo-luminoso);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .manifesto-cta {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 600px) {
+    .manifesto-cta .btn {
+      width: 100%;
+    }
+  }
+</style>
