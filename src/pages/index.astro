@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import BrandStory from '../components/BrandStory.astro';
+import Topics from '../components/Topics.astro';
+import RecentArticles from '../components/RecentArticles.astro';
+import VideoGallery from '../components/VideoGallery.astro';
+import Social from '../components/Social.astro';
+import Manifesto from '../components/Manifesto.astro';
+---
+
+<BaseLayout
+  title="Realidad Curiosa | Descubre lo extraordinario"
+  description="Explora curiosidades del universo, ciencia, naturaleza y misterios históricos explicados en videos verticales cortos y dinámicos para mentes curiosas."
+  image="/assets/og-image.png"
+>
+  <!-- Sección 2: Hero cinematográfico con mensaje principal -->
+  <Hero />
+
+  <!-- Sección 3: Presentación de la marca -->
+  <BrandStory />
+
+  <!-- Sección 4: Categorías de curiosidades -->
+  <Topics />
+
+  <!-- Sección Editorial: Publicaciones y artículos de divulgación -->
+  <RecentArticles />
+
+  <!-- Sección 5: Galería de videos destacados (formato vertical 9:16) -->
+  <VideoGallery />
+
+  <!-- Sección 6: Bloque de redes sociales oficiales -->
+  <Social />
+
+  <!-- Sección 7: Manifiesto de marca -->
+  <Manifesto />
+</BaseLayout>

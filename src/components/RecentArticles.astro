@@ -1,0 +1,315 @@
+---
+import { getCollection } from 'astro:content';
+import { categories } from '../data/categories';
+
+const allArticles = await getCollection('articulos', ({ data }) => !data.draft);
+const recentArticles = allArticles
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<section class="wrap recent-articles-section" id="articulos" aria-labelledby="recent-title">
+  <div class="section-head center">
+    <div class="kicker kicker-cyan">
+      <span aria-hidden="true">📖</span>
+      <span>Divulgación escrita</span>
+    </div>
+    <h2 id="recent-title" class="section-title">
+      Publicaciones y <span class="gradient-text">artículos editoriales</span>
+    </h2>
+    <p class="section-sub">
+      Profundizamos en los misterios de la realidad con análisis rigurosos, explicaciones claras y hechos comprobados para mentes que buscan aprender más.
+    </p>
+  </div>
+
+  {recentArticles.length > 0 ? (
+    <div class="articles-grid">
+      {recentArticles.map(article => (
+        <article class="article-card">
+          <a href={`/articulos/${article.id}`} class="card-image-link">
+            <img
+              src={article.data.image}
+              alt={article.data.imageAlt}
+              class="card-img"
+              loading="lazy"
+              width="400"
+              height="225"
+            />
+          </a>
+          <div class="card-body">
+            <div class="card-meta">
+              <a href={`/categoria/${article.data.category}`} class="card-category">
+                {categories.find(c => c.slug === article.data.category)?.shortName || article.data.category}
+              </a>
+              <time datetime={article.data.pubDate.toISOString()}>
+                {article.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+            </div>
+            <h3 class="card-title">
+              <a href={`/articulos/${article.id}`}>{article.data.title}</a>
+            </h3>
+            <p class="card-desc">{article.data.description}</p>
+            <a href={`/articulos/${article.id}`} class="read-link">
+              <span>Leer artículo</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="see-all-container">
+      <a href="/articulos/" class="btn secondary">
+        <span>Ver todos los artículos</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  ) : (
+    <div class="editorial-showcase-box">
+      <div class="editorial-inner">
+        <div class="editorial-icon-badge" aria-hidden="true">✍️</div>
+        <h3 class="editorial-box-title">Espacio editorial en preparación</h3>
+        <p class="editorial-box-desc">
+          Estamos estructurando y redactando los primeros artículos divulgativos de <strong>Realidad Curiosa</strong>. Para garantizar la máxima integridad editorial, <strong>no publicamos artículos de relleno ni datos simulados</strong>.
+        </p>
+        <p class="editorial-box-sub">
+          Puedes comenzar explorando nuestras cinco categorías de divulgación o conectar con nuestras publicaciones en video en los canales oficiales:
+        </p>
+
+        <!-- Categorías temáticas con enlaces directos -->
+        <div class="categories-preview-grid">
+          {categories.map(cat => (
+            <a href={`/categoria/${cat.slug}`} class="cat-chip">
+              <span class="chip-icon" aria-hidden="true">{cat.icon}</span>
+              <span class="chip-name">{cat.name}</span>
+            </a>
+          ))}
+        </div>
+
+        <div class="box-actions">
+          <a href="/articulos/" class="btn secondary">
+            <span>Visitar archivo de artículos</span>
+          </a>
+          <a href="https://www.youtube.com/@realidadcuriosaa" target="_blank" rel="noopener noreferrer" class="btn primary">
+            <span>Descubrir en YouTube Shorts</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  .recent-articles-section {
+    padding: clamp(60px, 8vw, 96px) 0;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 36px;
+  }
+
+  .article-card {
+    border-radius: var(--radio-lg);
+    background: var(--color-panel-transparente);
+    border: 1px solid var(--color-linea-borde);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-linea-activa);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  .card-image-link {
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #090e1d;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicion-suave);
+  }
+
+  .article-card:hover .card-img {
+    transform: scale(1.05);
+  }
+
+  .card-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--color-texto-apagado);
+    margin-bottom: 12px;
+  }
+
+  .card-category {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-azul-cian);
+    background: rgba(56, 189, 248, 0.12);
+    padding: 3px 8px;
+    border-radius: var(--radio-xs);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.35;
+    color: var(--color-blanco);
+    margin-bottom: 12px;
+  }
+
+  .card-title a {
+    color: inherit;
+  }
+
+  .card-title a:hover {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--color-texto-secundario);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .read-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 750;
+    color: var(--color-azul-cian);
+  }
+
+  .read-link:hover {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .see-all-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  /* Caja editorial honesta */
+  .editorial-showcase-box {
+    border-radius: var(--radio-xl);
+    border: 1px solid var(--color-linea-borde);
+    background: linear-gradient(145deg, rgba(22, 10, 51, 0.75) 0%, rgba(9, 13, 28, 0.92) 100%);
+    box-shadow: var(--sombra-card);
+    padding: clamp(32px, 5vw, 54px) clamp(20px, 4vw, 44px);
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .editorial-icon-badge {
+    font-size: 44px;
+    margin-bottom: 16px;
+  }
+
+  .editorial-box-title {
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 850;
+    color: var(--color-blanco);
+    margin-bottom: 14px;
+  }
+
+  .editorial-box-desc {
+    font-size: 15px;
+    color: var(--color-texto-secundario);
+    line-height: 1.65;
+    max-width: 700px;
+    margin: 0 auto 12px;
+  }
+
+  .editorial-box-desc strong {
+    color: var(--color-blanco);
+  }
+
+  .editorial-box-sub {
+    font-size: 14px;
+    color: var(--color-blanco-tenue);
+    line-height: 1.6;
+    max-width: 660px;
+    margin: 0 auto 28px;
+  }
+
+  .categories-preview-grid {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .cat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radio-full);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-linea-borde);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-texto-principal);
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida), color var(--transicion-rapida);
+  }
+
+  .cat-chip:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-linea-activa);
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .chip-icon {
+    font-size: 16px;
+  }
+
+  .box-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 960px) {
+    .articles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .box-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

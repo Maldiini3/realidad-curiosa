@@ -1,0 +1,479 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { categories, type CategoryInfo } from '../../data/categories';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return categories.map((cat) => ({
+    params: { categoria: cat.slug },
+    props: { category: cat }
+  }));
+}
+
+interface Props {
+  category: CategoryInfo;
+}
+
+const { category } = Astro.props;
+
+// Obtener artículos verificados de esta categoría (filtrando borradores)
+const allArticles = await getCollection('articulos', ({ data }) => !data.draft && data.category === category.slug);
+const sortedArticles = allArticles.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Categorías relacionadas para enlazado interno
+const otherCategories = categories.filter(c => c.slug !== category.slug);
+
+// Breadcrumb Schema.org
+const breadcrumbSchema = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Inicio",
+      "item": "https://realidadcuriosa.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Categorías",
+      "item": "https://realidadcuriosa.com/#temas"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": category.name,
+      "item": `https://realidadcuriosa.com/categoria/${category.slug}`
+    }
+  ]
+};
+
+const collectionSchema = {
+  "@type": "CollectionPage",
+  "@id": `https://realidadcuriosa.com/categoria/${category.slug}#webpage`,
+  "url": `https://realidadcuriosa.com/categoria/${category.slug}`,
+  "name": category.metaTitle,
+  "description": category.metaDescription,
+  "inLanguage": "es"
+};
+---
+
+<BaseLayout
+  title={category.metaTitle}
+  description={category.metaDescription}
+  schema={[breadcrumbSchema, collectionSchema]}
+>
+  <div class="wrap category-page">
+    <Breadcrumbs
+      items={[
+        { label: "Categorías", href: "/#temas" },
+        { label: category.name }
+      ]}
+    />
+
+    <!-- Encabezado de la categoría -->
+    <header class="category-header">
+      <div class="category-kicker">
+        <span class="category-icon" aria-hidden="true">{category.icon}</span>
+        <span>Categoría temática</span>
+      </div>
+
+      <h1 class="category-title">
+        {category.name}
+      </h1>
+
+      <p class="category-description">
+        {category.description}
+      </p>
+
+      <div class="category-stats-pill">
+        <span class="pill-dot" aria-hidden="true"></span>
+        <span>{sortedArticles.length === 0 ? "Próximos artículos en preparación" : `${sortedArticles.length} publicación(es)`}</span>
+      </div>
+    </header>
+
+    <!-- Listado de artículos o estado honesto de preparación -->
+    <section class="articles-section" aria-label={`Artículos de ${category.name}`}>
+      {sortedArticles.length > 0 ? (
+        <div class="articles-grid">
+          {sortedArticles.map(article => (
+            <article class="article-card">
+              <a href={`/articulos/${article.id}`} class="card-image-link">
+                <img
+                  src={article.data.image}
+                  alt={article.data.imageAlt}
+                  class="article-card-img"
+                  loading="lazy"
+                  width="400"
+                  height="225"
+                />
+              </a>
+              <div class="card-body">
+                <div class="card-meta">
+                  <time datetime={article.data.pubDate.toISOString()}>
+                    {article.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  </time>
+                  {article.data.readingTime && (
+                    <span class="reading-time">· {article.data.readingTime}</span>
+                  )}
+                </div>
+                <h2 class="card-title">
+                  <a href={`/articulos/${article.id}`}>{article.data.title}</a>
+                </h2>
+                <p class="card-desc">{article.data.description}</p>
+                <a href={`/articulos/${article.id}`} class="read-more">
+                  <span>Leer artículo</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="editorial-empty-card">
+          <div class="empty-icon" aria-hidden="true">✍️</div>
+          <h2 class="empty-title">Publicaciones editoriales en preparación</h2>
+          <p class="empty-desc">
+            Estamos elaborando artículos documentados y rigurosos dedicados a <strong>{category.name}</strong>. Para mantener la transparencia y calidad de Realidad Curiosa, <strong>no publicamos artículos de demostración con información ficticia</strong>.
+          </p>
+          <p class="empty-sub">
+            Muy pronto podrás leer análisis detallados en este espacio. Mientras tanto, puedes explorar los videos sobre esta temática en nuestras plataformas oficiales o descubrir otras categorías.
+          </p>
+          <div class="empty-actions">
+            <a href="https://www.youtube.com/@realidadcuriosaa" target="_blank" rel="noopener noreferrer" class="btn primary">
+              <span>Explorar en YouTube</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a href="/#temas" class="btn secondary">
+              <span>Ver todas las categorías</span>
+            </a>
+          </div>
+        </div>
+      )}
+    </section>
+
+    <!-- Enlazado interno: Otras categorías para fomentar descubrimiento -->
+    <section class="other-categories-section" aria-labelledby="other-cat-title">
+      <div class="section-divider"></div>
+      <h2 id="other-cat-title" class="other-cat-heading">
+        Explora otras categorías de Realidad Curiosa
+      </h2>
+      <div class="other-cat-grid">
+        {otherCategories.map(cat => (
+          <a href={`/categoria/${cat.slug}`} class="other-cat-card">
+            <span class="other-icon" aria-hidden="true">{cat.icon}</span>
+            <div class="other-content">
+              <span class="other-name">{cat.name}</span>
+              <span class="other-desc">{cat.tag}</span>
+            </div>
+            <span class="other-arrow" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .category-page {
+    padding-bottom: 80px;
+  }
+
+  .category-header {
+    padding: clamp(24px, 4vw, 48px) 0 clamp(32px, 5vw, 56px);
+    border-bottom: 1px solid var(--color-linea-borde);
+    margin-bottom: 48px;
+    max-width: 800px;
+  }
+
+  .category-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-azul-cian);
+    margin-bottom: 16px;
+  }
+
+  .category-icon {
+    font-size: 20px;
+  }
+
+  .category-title {
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.1;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--color-blanco);
+    margin-bottom: 18px;
+  }
+
+  .category-description {
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--color-texto-secundario);
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+
+  .category-stats-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: var(--radio-full);
+    background: rgba(124, 58, 237, 0.14);
+    border: 1px solid rgba(157, 140, 255, 0.28);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-amarillo-luminoso);
+    box-shadow: 0 0 6px var(--color-amarillo-luminoso);
+  }
+
+  /* Grid de artículos */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 60px;
+  }
+
+  .article-card {
+    border-radius: var(--radio-lg);
+    background: var(--color-panel-transparente);
+    border: 1px solid var(--color-linea-borde);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-linea-activa);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  .card-image-link {
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #090e1d;
+  }
+
+  .article-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transicion-suave);
+  }
+
+  .article-card:hover .article-card-img {
+    transform: scale(1.05);
+  }
+
+  .card-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta {
+    font-size: 12px;
+    color: var(--color-texto-apagado);
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.35;
+    color: var(--color-blanco);
+    margin-bottom: 12px;
+  }
+
+  .card-title a {
+    color: inherit;
+  }
+
+  .card-title a:hover {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--color-texto-secundario);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 750;
+    color: var(--color-azul-cian);
+  }
+
+  .read-more:hover {
+    color: var(--color-amarillo-luminoso);
+  }
+
+  /* Estado editorial honesto */
+  .editorial-empty-card {
+    padding: clamp(36px, 6vw, 64px) clamp(20px, 4vw, 44px);
+    border-radius: var(--radio-xl);
+    border: 1px dashed rgba(157, 140, 255, 0.35);
+    background: radial-gradient(circle at 50% 20%, rgba(35, 11, 77, 0.4) 0%, rgba(8, 11, 24, 0.8) 100%);
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 60px;
+  }
+
+  .empty-icon {
+    font-size: 44px;
+    margin-bottom: 16px;
+  }
+
+  .empty-title {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 850;
+    color: var(--color-blanco);
+    margin-bottom: 14px;
+  }
+
+  .empty-desc {
+    font-size: 15px;
+    color: var(--color-texto-secundario);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .empty-desc strong {
+    color: var(--color-blanco);
+  }
+
+  .empty-sub {
+    font-size: 14px;
+    color: var(--color-texto-apagado);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .empty-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* Sección de otras categorías */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-linea-borde), transparent);
+    margin-bottom: 48px;
+  }
+
+  .other-cat-heading {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 850;
+    color: var(--color-blanco);
+    margin-bottom: 24px;
+  }
+
+  .other-cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .other-cat-card {
+    padding: 18px;
+    border-radius: var(--radio-md);
+    background: var(--color-panel-transparente);
+    border: 1px solid var(--color-linea-borde);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform var(--transicion-rapida), border-color var(--transicion-rapida);
+  }
+
+  .other-cat-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-linea-activa);
+  }
+
+  .other-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .other-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .other-name {
+    font-size: 14px;
+    font-weight: 750;
+    color: var(--color-blanco);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .other-desc {
+    font-size: 11px;
+    color: var(--color-texto-apagado);
+  }
+
+  .other-arrow {
+    color: var(--color-azul-cian);
+    font-size: 14px;
+    transition: transform var(--transicion-rapida);
+  }
+
+  .other-cat-card:hover .other-arrow {
+    transform: translateX(3px);
+    color: var(--color-amarillo-luminoso);
+  }
+
+  @media (max-width: 1024px) {
+    .articles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .other-cat-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .other-cat-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .empty-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

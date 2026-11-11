@@ -1,0 +1,87 @@
+/**
+ * Realidad Curiosa — Tokens y Variables de Identidad Visual
+ * Fase 2: Diseño y Experiencia Visual
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* === Colores de Identidad Corporativa === */
+  /* Morado Espacial Oficial */
+  --color-morado-fondo: #0c071e;
+  --color-morado-noche: #160a33;
+  --color-morado-profundo: #230b4d;
+  --color-morado-espacial: #7c3aed;
+  --color-morado-suave: #9d8cff;
+  --color-morado-halo: rgba(157, 140, 255, 0.28);
+  --color-morado-translucido: rgba(124, 58, 237, 0.16);
+
+  /* Azul Cósmico */
+  --color-azul-profundo: #070e1e;
+  --color-azul-cosmico: #38bdf8;
+  --color-azul-cian: #68e1f5;
+  --color-azul-halo: rgba(104, 225, 245, 0.25);
+  --color-azul-translucido: rgba(56, 189, 248, 0.14);
+
+  /* Amarillo Luminoso Oficial (Bombilla y Acentos de Curiosidad) */
+  --color-amarillo-luminoso: #facc15;
+  --color-amarillo-dorado: #ffd600;
+  --color-amarillo-calido: #f59e0b;
+  --color-amarillo-glow: rgba(250, 204, 21, 0.4);
+  --color-amarillo-translucido: rgba(250, 204, 21, 0.12);
+
+  /* Blanco y Neutros */
+  --color-blanco: #ffffff;
+  --color-blanco-suave: #f8fafc;
+  --color-blanco-tenue: #cbd5f1;
+  --color-gris-claro: #94a3b8;
+
+  /* Fondos y Estructura */
+  --color-bg-base: #060913;
+  --color-panel: #0d1326;
+  --color-panel-transparente: rgba(13, 19, 38, 0.82);
+  --color-panel-elevated: rgba(20, 28, 56, 0.88);
+  --color-panel-hover: rgba(28, 38, 74, 0.96);
+  --color-linea-borde: rgba(173, 190, 230, 0.15);
+  --color-linea-activa: rgba(104, 225, 245, 0.45);
+  --color-linea-amarilla: rgba(250, 204, 21, 0.4);
+
+  /* Tipografía y Textos */
+  --color-texto-principal: #f8fafc;
+  --color-texto-secundario: #a8b1c8;
+  --color-texto-apagado: #64748b;
+
+  /* Gradientes Oficiales */
+  --gradiente-cosmos: radial-gradient(ellipse at 80% 5%, rgba(124, 58, 237, 0.32), transparent 45%),
+                      radial-gradient(ellipse at 15% 30%, rgba(56, 189, 248, 0.2), transparent 40%),
+                      radial-gradient(ellipse at 50% 85%, rgba(35, 11, 77, 0.35), transparent 50%),
+                      var(--color-bg-base);
+  --gradiente-texto-hero: linear-gradient(110deg, #ffffff 15%, #68e1f5 55%, #ffd600 95%);
+  --gradiente-texto-morado: linear-gradient(110deg, #ffffff 10%, #9d8cff 65%, #68e1f5 100%);
+  --gradiente-boton-primario: linear-gradient(110deg, #ffd600 0%, #facc15 50%, #f59e0b 100%);
+  --gradiente-boton-secundario: linear-gradient(110deg, rgba(124, 58, 237, 0.3) 0%, rgba(56, 189, 248, 0.2) 100%);
+  --gradiente-tarjeta-video: linear-gradient(180deg, rgba(14, 21, 44, 0.4) 0%, rgba(7, 10, 22, 0.95) 100%);
+
+  /* Tipografías */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Espaciado y Layout */
+  --ancho-max-contenedor: 1180px;
+  --radio-xs: 6px;
+  --radio-sm: 10px;
+  --radio-md: 16px;
+  --radio-lg: 22px;
+  --radio-xl: 32px;
+  --radio-full: 9999px;
+
+  /* Sombras y Halos */
+  --sombra-card: 0 16px 36px rgba(0, 0, 0, 0.4);
+  --sombra-card-hover: 0 24px 50px rgba(0, 0, 0, 0.55);
+  --sombra-glow-amarillo: 0 0 28px rgba(250, 204, 21, 0.45);
+  --sombra-glow-cian: 0 0 28px rgba(104, 225, 245, 0.35);
+  --sombra-glow-morado: 0 0 32px rgba(124, 58, 237, 0.38);
+
+  /* Transiciones */
+  --transicion-rapida: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transicion-suave: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
