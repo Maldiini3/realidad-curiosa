@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b16">
+  <meta name="description" content="Realidad Curiosa: descubre datos sorprendentes, ciencia, naturaleza, historia y fenómenos extraordinarios.">
+  <meta property="og:title" content="Realidad Curiosa | El mundo es más increíble de lo que imaginas">
+  <meta property="og:description" content="Curiosidades, ciencia, naturaleza y misterios para alimentar tu curiosidad.">
+  <meta property="og:type" content="website">
+  <title>Realidad Curiosa | Descubre lo extraordinario</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080b16;--panel:#101629;--text:#f4f6ff;--muted:#a8b1c8;--line:rgba(173,190,230,.16);--cyan:#68e1f5;--violet:#9d8cff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% 0%,rgba(91,74,190,.22),transparent 38%),radial-gradient(ellipse at 8% 28%,rgba(31,151,183,.13),transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 40px));margin:auto}.nav{height:78px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-weight:850;letter-spacing:.11em;font-size:14px}.brand span{color:var(--cyan)}.navlinks{display:flex;gap:26px;color:var(--muted);font-size:13px}.navlinks a:hover{color:var(--text)}
+    .hero{min-height:610px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:42px;padding:72px 0 86px}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}.dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan)}h1{font-size:clamp(43px,6vw,76px);line-height:1.02;letter-spacing:-.055em;margin:22px 0}.gradient{background:linear-gradient(100deg,#fff 8%,#a8eefa 48%,#b5a8ff 90%);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{font-size:18px;color:var(--muted);max-width:590px}.actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 19px;border-radius:12px;font-weight:750;font-size:13px;border:1px solid var(--line);transition:.2s}.btn.primary{background:linear-gradient(110deg,#69dff0,#9d8cff);color:#07101a;border:0}.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+    .visual{position:relative;min-height:390px;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:radial-gradient(circle at 52% 46%,rgba(111,102,255,.34),transparent 36%),linear-gradient(145deg,#151d39,#090e1c 72%);box-shadow:0 28px 90px rgba(0,0,0,.32)}.orbit{position:absolute;width:290px;height:290px;border:1px solid rgba(150,177,255,.35);border-radius:50%;left:50%;top:48%;transform:translate(-50%,-50%);box-shadow:0 0 70px rgba(93,123,255,.12),inset 0 0 50px rgba(93,123,255,.08)}.orbit:before,.orbit:after{content:"";position:absolute;border:1px solid rgba(104,225,245,.28);border-radius:50%;inset:27px;transform:rotate(55deg) scaleX(1.55)}.orbit:after{transform:rotate(-55deg) scaleX(1.55)}.planet{position:absolute;width:158px;height:158px;left:50%;top:48%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 33% 28%,#d8faff 0,#8d9fff 12%,#514b9c 42%,#171b42 72%);box-shadow:inset -25px -18px 35px #080b20,0 0 65px rgba(111,164,255,.5)}.spark{position:absolute;width:5px;height:5px;border-radius:50%;background:#c8faff;box-shadow:0 0 13px #68e1f5}.s1{top:20%;left:20%}.s2{top:25%;right:18%}.s3{bottom:21%;left:27%}.s4{bottom:18%;right:23%}.visual-label{position:absolute;bottom:22px;left:24px;color:#cbd5f1;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+    section{padding:68px 0}.section-head{max-width:650px;margin-bottom:30px}.kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--violet);font-weight:800}h2{font-size:clamp(29px,4vw,42px);line-height:1.12;letter-spacing:-.035em;margin:10px 0 12px}.sub{color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.topic{padding:22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(20,29,53,.88),rgba(12,17,32,.88));min-height:185px;transition:.2s}.topic:hover{transform:translateY(-4px);border-color:rgba(104,225,245,.4)}.topic .symbol{font-size:27px}.topic h3{font-size:16px;margin:16px 0 6px}.topic p{font-size:13px;color:var(--muted);margin:0}
+    .social{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.social-card{display:flex;gap:16px;align-items:center;padding:22px;border:1px solid var(--line);border-radius:18px;background:rgba(16,22,41,.82)}.social-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:#1a2440;font-size:21px}.social-card h3{margin:0;font-size:16px}.social-card p{margin:3px 0 0;color:var(--muted);font-size:12px}.status{margin-left:auto;color:#8390ac;font-size:10px;white-space:nowrap}
+    .manifesto{border:1px solid var(--line);border-radius:24px;padding:42px;background:linear-gradient(115deg,rgba(39,71,111,.34),rgba(74,57,130,.24));text-align:center}.manifesto p{max-width:700px;margin:12px auto 0;color:#c4cce0}.footer{padding:30px 0 42px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:12px}.footer strong{color:var(--text);letter-spacing:.12em}
+    @media(max-width:800px){.hero{grid-template-columns:1fr;padding:58px 0}.visual{min-height:330px}.grid{grid-template-columns:repeat(2,1fr)}.navlinks{gap:14px}.social{grid-template-columns:1fr}}@media(max-width:520px){.wrap{width:min(100% - 30px,1120px)}.nav{height:68px}.navlinks a:not(:last-child){display:none}h1{font-size:46px}.lead{font-size:16px}.grid{grid-template-columns:1fr 1fr}.topic{padding:16px;min-height:175px}.manifesto{padding:28px 20px}.footer{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="wrap nav">
+    <a class="brand" href="#" aria-label="Realidad Curiosa, inicio">REALIDAD<span> CURIOSA</span></a>
+    <nav class="navlinks" aria-label="Navegación principal"><a href="#temas">Explorar</a><a href="#redes">Nuestras redes</a><a href="#nosotros">Nosotros</a></nav>
+  </header>
+  <main>
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Ciencia · Naturaleza · Misterios · Historia</div>
+        <h1>El mundo es más <span class="gradient">increíble</span> de lo que imaginas.</h1>
+        <p class="lead">Un espacio para quienes nunca dejan de preguntarse. Descubre datos sorprendentes, fenómenos extraordinarios e historias que despiertan tu curiosidad.</p>
+        <div class="actions"><a class="btn primary" href="#temas">Explorar curiosidades <span aria-hidden="true">&nbsp;↗</span></a><a class="btn" href="#redes">Síguenos en redes</a></div>
+      </div>
+      <div class="visual" role="img" aria-label="Ilustración abstracta de un planeta rodeado de órbitas en el espacio"><div class="orbit"></div><div class="planet"></div><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i><i class="spark s4"></i><div class="visual-label">Hay mucho más por descubrir</div></div>
+    </div>
+    <section class="wrap" id="temas">
+      <div class="section-head"><div class="kicker">Un universo de temas</div><h2>Siempre hay algo nuevo por descubrir.</h2><p class="sub">Explora algunos de los temas que alimentan nuestras ganas de aprender.</p></div>
+      <div class="grid">
+        <article class="topic"><div class="symbol">🌌</div><h3>Universo y ciencia</h3><p>El espacio, el tiempo y los descubrimientos que amplían nuestros límites.</p></article>
+        <article class="topic"><div class="symbol">🦋</div><h3>Naturaleza</h3><p>Las adaptaciones, criaturas y maravillas de nuestro planeta.</p></article>
+        <article class="topic"><div class="symbol">🏛️</div><h3>Historia y misterios</h3><p>Relatos, civilizaciones y preguntas que siguen despertando interés.</p></article>
+        <article class="topic"><div class="symbol">⚡</div><h3>Fenómenos increíbles</h3><p>Hechos sorprendentes que muestran lo extraordinaria que es la realidad.</p></article>
+      </div>
+    </section>
+    <section class="wrap" id="redes">
+      <div class="section-head"><div class="kicker">La curiosidad nos conecta</div><h2>Encuéntranos en tus plataformas favoritas.</h2><p class="sub">Publicamos contenido para descubrir, aprender y sorprenderse. Muy pronto podrás entrar directamente a cada una de nuestras comunidades desde aquí.</p></div>
+      <div class="social">
+        <div class="social-card"><div class="social-icon" aria-hidden="true">f</div><div><h3>Facebook</h3><p>Reels y publicaciones</p></div><span class="status">Enlace pendiente</span></div>
+        <div class="social-card"><div class="social-icon" aria-hidden="true">▶</div><div><h3>YouTube</h3><p>Videos y Shorts</p></div><span class="status">Enlace pendiente</span></div>
+        <div class="social-card"><div class="social-icon" aria-hidden="true">♪</div><div><h3>TikTok</h3><p>Curiosidades en formato corto</p></div><span class="status">Enlace pendiente</span></div>
+      </div>
+    </section>
+    <section class="wrap" id="nosotros"><div class="manifesto"><div class="kicker">Realidad Curiosa</div><h2>La curiosidad no tiene límites.</h2><p>Creemos que aprender puede ser tan entretenido como sorprendente. Mira el mundo con otros ojos, haz preguntas y descubre lo extraordinario que se esconde en lo cotidiano.</p></div></section>
+  </main>
+  <footer class="wrap footer"><strong>REALIDAD CURIOSA</strong><span>© <span id="year"></span> Realidad Curiosa. Todos los derechos reservados.</span><span>Hecho para mentes curiosas.</span></footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
